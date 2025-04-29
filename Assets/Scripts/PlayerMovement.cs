@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     public float falling = 0;
     public bool flagged = false;
 
+    public bool cripple = false;
+
     // Update is called once per frame
     [System.Obsolete]
 
@@ -61,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //If I hit Z and can jump, jump
-        if (Input.GetKeyDown(KeyCode.Z ))
+        if (Input.GetKeyDown(KeyCode.Space))
         { 
             if(Floored)
             {
@@ -75,36 +77,39 @@ public class PlayerMovement : MonoBehaviour
        //falling mechanics 
         PosCheck += Time.deltaTime;
 
-        if(PosCheck >= 1)
+        if(PosCheck >= 0.5f)
         {
             YposC = transform.position.y;
             PosCheck = 0;
         }
 
-        if(YposC >transform.position.y)
+        float y = (transform.position.y);
+        if (YposC > y)
         {
             falling += Time.deltaTime;
 
         }
-        else
-        {
-            falling = 0;
-        }
+        else if(Floored)
+        { falling = 0; }
+        
        
        
         if (falling >= 1)
         {
             Debug.Log("ME CAGOOOO");
+
+            cripple = true;
+
             falling = 0;
         }
         //respawn beacon thing
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(Floored)
-            {
+            
                 if(flagged)
                 {
+                cripple = false;
                     Vector2 pos = transform.position;
                     pos.x = Xpos;
                     pos.y = Ypos;
@@ -113,11 +118,14 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    Xpos = transform.position.x;
-                    Ypos = transform.position.y;
-                    flagged = true;
+                if (Floored)
+                    {
+                        Xpos = transform.position.x;
+                        Ypos = transform.position.y;
+                        flagged = true;
+                    }
                 }
-            }
+            
         }
     }
 
@@ -128,6 +136,12 @@ public class PlayerMovement : MonoBehaviour
         {
            Floored = true;
            falling = 0;
+            if (cripple)
+            {
+                Debug.Log("You messed up");
+
+                cripple = false;
+            }
         }
         else
         {
