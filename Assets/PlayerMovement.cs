@@ -15,7 +15,27 @@ public class PlayerMovement : MonoBehaviour
 
     public bool Floored = false;
 
+    public float Xpos = 0;
+    public float Ypos = 0;
+
+    public float YposC = 0;
+
+    public float PosCheck = 0;
+    
+
+    public float falling = 0;
+    public bool flagged = false;
+
     // Update is called once per frame
+    [System.Obsolete]
+
+    // Update is called once per frame
+    void Start()
+    {
+        Xpos = transform.position.x;
+        Ypos = transform.position.y;
+    }
+
     [System.Obsolete]
     void Update()
     {
@@ -41,14 +61,64 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //If I hit Z and can jump, jump
-        if (Input.GetKeyDown(KeyCode.Z ) && (Floored = true))
+        if (Input.GetKeyDown(KeyCode.Z ))
         { 
-            vel.y = JumpPower;
+            if(Floored)
+            {
+                vel.y = JumpPower;
+            }
             }
          RB.velocity = vel;
         //Use my FacingLeft variable to make my sprite face the right way
         SR.flipX = FacingLeft;
 
+       //falling mechanics 
+        PosCheck += Time.deltaTime;
+
+        if(PosCheck >= 1)
+        {
+            YposC = transform.position.y;
+            PosCheck = 0;
+        }
+
+        if(YposC >transform.position.y)
+        {
+            falling += Time.deltaTime;
+
+        }
+        else
+        {
+            falling = 0;
+        }
+       
+       
+        if (falling >= 1)
+        {
+            Debug.Log("ME CAGOOOO");
+            falling = 0;
+        }
+        //respawn beacon thing
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if(Floored)
+            {
+                if(flagged)
+                {
+                    Vector2 pos = transform.position;
+                    pos.x = Xpos;
+                    pos.y = Ypos;
+                    transform.position = pos;
+                    flagged = false;
+                }
+                else
+                {
+                    Xpos = transform.position.x;
+                    Ypos = transform.position.y;
+                    flagged = true;
+                }
+            }
+        }
     }
 
      private void OnCollisionEnter2D(Collision2D other)
@@ -57,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
         if(other.gameObject.CompareTag("Floor"))
         {
            Floored = true;
+           falling = 0;
         }
         else
         {

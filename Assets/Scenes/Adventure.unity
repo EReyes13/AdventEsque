@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 256621509}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -479,7 +479,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 9.492101
+    OrthographicSize: 11.46
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -553,6 +553,12 @@ MonoBehaviour:
   OnGround: 0
   FacingLeft: 0
   Floored: 0
+  Xpos: 0
+  Ypos: 0
+  YposC: 0
+  PosCheck: 0
+  falling: 0
+  flagged: 0
 --- !u!50 &671825838
 Rigidbody2D:
   serializedVersion: 5
@@ -925,7 +931,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9.492101
+  orthographic size: 11.46
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
