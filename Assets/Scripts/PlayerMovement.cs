@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool cripple = false;
 
+    public float Ruby = 0;
+
     // Update is called once per frame
     [System.Obsolete]
 
@@ -74,58 +76,75 @@ public class PlayerMovement : MonoBehaviour
         //Use my FacingLeft variable to make my sprite face the right way
         SR.flipX = FacingLeft;
 
-       //falling mechanics 
-        PosCheck += Time.deltaTime;
+        //falling mechanics 
+        /* PosCheck += Time.deltaTime;
 
-        if(PosCheck >= 0.5f)
-        {
-            YposC = transform.position.y;
-            PosCheck = 0;
-        }
+         if(PosCheck >= 0.5f)
+         {
+             YposC = transform.position.y;
+             PosCheck = 0;
+         }
 
-        float y = (transform.position.y);
-        if (YposC > y)
-        {
-            falling += Time.deltaTime;
+         float y = (transform.position.y);
+         if (YposC > y)
+         {
+             falling += Time.deltaTime;
 
-        }
-        else if(Floored)
-        { falling = 0; }
+         }
+         else if(Floored)
+         { falling = 0; }
+
+
+
+         if (falling >= 1)
+         {
+             Debug.Log("ME CAGOOOO");
+
+             cripple = true;
+
+             falling = 0;
+         }*/
+         //respawn beacon thing
+
+         if(Input.GetKeyDown(KeyCode.R))
+         {
+
+                 if(flagged)
+                 {
+                 cripple = false;
+                     Vector2 pos = transform.position;
+                     pos.x = Xpos;
+                     pos.y = Ypos;
+                     transform.position = pos;
+                     flagged = false;
+                 }
+                 else
+                 {
+                 if (Floored)
+                     {
+                         Xpos = transform.position.x;
+                         Ypos = transform.position.y;
+                         flagged = true;
+                     }
+
+                 }
+
+         }
+        //new falling mechanic
+        Ruby = RB.linearVelocityY;
+        if (Ruby < 0)
+        { 
+            falling+= Time.deltaTime; 
         
-       
-       
-        if (falling >= 1)
+        }
+        else 
         {
-            Debug.Log("ME CAGOOOO");
-
-            cripple = true;
-
             falling = 0;
         }
-        //respawn beacon thing
-
-        if(Input.GetKeyDown(KeyCode.R))
+        if(falling > 1) 
         {
-            
-                if(flagged)
-                {
-                cripple = false;
-                    Vector2 pos = transform.position;
-                    pos.x = Xpos;
-                    pos.y = Ypos;
-                    transform.position = pos;
-                    flagged = false;
-                }
-                else
-                {
-                if (Floored)
-                    {
-                        Xpos = transform.position.x;
-                        Ypos = transform.position.y;
-                        flagged = true;
-                    }
-                }
-            
+            Debug.Log("We cooked");
+            falling = 0;   
         }
     }
 
