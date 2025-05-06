@@ -28,9 +28,17 @@ public class PlayerMovement : MonoBehaviour
 
     public bool cripple = false;
 
+    public bool staggering = false;
+
+    public float Duration = 10; 
+
     public float Ruby = 0;
 
     public GameObject prefab;
+    //recall fix
+    public GameObject RecallEffect;
+
+    Color current;
 
     // Update is called once per frame
     [System.Obsolete]
@@ -46,6 +54,21 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
          Vector2 vel = RB.velocity;
+        if (staggering) 
+        {
+            Speed = 2;
+            JumpPower = 4;
+            Duration -= Time.deltaTime;
+        }
+
+        if(Duration <= 0.001) 
+        {
+            Speed = 5;
+            JumpPower = 10;
+            
+            staggering = false;
+            Duration = 10;
+        }
 
         if (Input.GetKey(KeyCode.RightArrow))
         { 
@@ -110,8 +133,8 @@ public class PlayerMovement : MonoBehaviour
 
          if(Input.GetKeyDown(KeyCode.R))
          {
-
-                 if(flagged)
+            
+            if (flagged)
                  {
                  cripple = false;
                      Vector2 pos = transform.position;
@@ -119,16 +142,20 @@ public class PlayerMovement : MonoBehaviour
                      pos.y = Ypos;
                      transform.position = pos;
                      flagged = false;
-                     ks.Activate = true;
+                //ks.Activate = true;
+                Destroy(RecallEffect);
+                SR.color = current;
                  }
                  else
                  {
                  if (Floored)
                      {
+                    current = SR.color;
                          Xpos = transform.position.x;
-                         Ypos = transform.position.y;
+                         Ypos = transform.position.y + 0.1f;
                          flagged = true;
-                         Instantiate(prefab,transform.position,Quaternion.identity);
+                         RecallEffect=Instantiate(prefab,transform.position,Quaternion.identity);
+                    SR.color = new Color(SR.color.r,SR.color.g,SR.color.b,0.5f);
                      }
 
                  }
@@ -147,8 +174,9 @@ public class PlayerMovement : MonoBehaviour
         }
         if(falling > 1) 
         {
-            Debug.Log("We cooked");
-            falling = 0;   
+           // Debug.Log("We cooked");
+            falling = 0;
+            cripple = true;
         }
     }
 
@@ -161,9 +189,11 @@ public class PlayerMovement : MonoBehaviour
            falling = 0;
             if (cripple)
             {
-                Debug.Log("You messed up");
+               // Debug.Log("You messed up");
 
                 cripple = false;
+                staggering = true;
+                
             }
         }
         else
@@ -177,3 +207,4 @@ public class PlayerMovement : MonoBehaviour
         Floored = false;
     }
 }
+    

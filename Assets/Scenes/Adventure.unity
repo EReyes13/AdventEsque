@@ -661,6 +661,11 @@ MonoBehaviour:
   falling: 0
   flagged: 0
   cripple: 0
+  staggering: 0
+  Duration: 10
+  Ruby: 0
+  prefab: {fileID: 1255255767855936786, guid: 8184b42a1b8e6a14e94ad48acc2be55e, type: 3}
+  RecallEffect: {fileID: 0}
 --- !u!50 &671825838
 Rigidbody2D:
   serializedVersion: 5
@@ -954,37 +959,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Talking: 0
   Yap: {fileID: 1319364391}
---- !u!1 &1318290199
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1318290200}
-  m_Layer: 0
-  m_Name: Particle system
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1318290200
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318290199}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7993237, y: -1.3721377, z: 5.993562}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1319364391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,4 +1730,3 @@ SceneRoots:
   - {fileID: 1294109510}
   - {fileID: 226075258}
   - {fileID: 1613797304}
-  - {fileID: 1318290200}
