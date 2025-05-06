@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float Ruby = 0;
 
+    public GameObject prefab;
+
     // Update is called once per frame
     [System.Obsolete]
 
@@ -117,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
                      pos.y = Ypos;
                      transform.position = pos;
                      flagged = false;
+                     ks.Activate = true;
                  }
                  else
                  {
@@ -125,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
                          Xpos = transform.position.x;
                          Ypos = transform.position.y;
                          flagged = true;
+                         Instantiate(prefab,transform.position,Quaternion.identity);
                      }
 
                  }
