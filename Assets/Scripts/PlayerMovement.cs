@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   //main stats and vars
     public SpriteRenderer SR;
     public Rigidbody2D RB;
     public Collider2D Coll;
-    
+
     public float Speed = 5;
     public float JumpPower = 10;
     public float Gravity = 3;
-     public bool OnGround = false;
+    public bool OnGround = false;
     public bool FacingLeft = false;
 
     public bool Floored = false;
@@ -21,8 +21,8 @@ public class PlayerMovement : MonoBehaviour
     public float YposC = 0;
 
     public float PosCheck = 0;
-    
 
+    //crippple mech
     public float falling = 0;
     public bool flagged = false;
 
@@ -30,18 +30,21 @@ public class PlayerMovement : MonoBehaviour
 
     public bool staggering = false;
 
-    public float Duration = 10; 
+    public float Duration = 10;
 
     public float Ruby = 0;
-
+    //recall
     public GameObject prefab;
     //recall fix
     public GameObject RecallEffect;
 
-    Color current;
+    //Color current;
 
-    // Update is called once per frame
-    [System.Obsolete]
+    //invis mech 
+    public bool Isinvis;
+    public float Iduration = 5;
+
+   
 
     // Update is called once per frame
     void Start()
@@ -50,35 +53,35 @@ public class PlayerMovement : MonoBehaviour
         Ypos = transform.position.y;
     }
 
-    [System.Obsolete]
+    
     void Update()
     {
-         Vector2 vel = RB.velocity;
-        if (staggering) 
+        Vector2 vel = RB.linearVelocity;
+        if (staggering)
         {
             Speed = 2;
             JumpPower = 4;
             Duration -= Time.deltaTime;
         }
 
-        if(Duration <= 0.001) 
+        if (Duration <= 0.001)
         {
             Speed = 5;
             JumpPower = 10;
-            
+
             staggering = false;
             Duration = 10;
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
-        { 
+        {
             //If I hit right, move right
             vel.x = Speed;
             //If I hit right, mark that I'm not facing left
             FacingLeft = false;
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
-        { 
+        {
             //If I hit left, move right
             vel.x = -Speed;
             //If I hit left, mark that I'm facing left
@@ -89,15 +92,15 @@ public class PlayerMovement : MonoBehaviour
             vel.x = 0;
         }
 
-        //If I hit Z and can jump, jump
+
         if (Input.GetKeyDown(KeyCode.Space))
-        { 
-            if(Floored)
+        {
+            if (Floored)
             {
                 vel.y = JumpPower;
             }
-            }
-         RB.velocity = vel;
+        }
+        RB.linearVelocity = vel;
         //Use my FacingLeft variable to make my sprite face the right way
         SR.flipX = FacingLeft;
 
@@ -129,71 +132,96 @@ public class PlayerMovement : MonoBehaviour
 
              falling = 0;
          }*/
-         //respawn beacon thing
+        //respawn beacon thing
 
-         if(Input.GetKeyDown(KeyCode.R))
-         {
-            
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+
             if (flagged)
-                 {
-                 cripple = false;
-                     Vector2 pos = transform.position;
-                     pos.x = Xpos;
-                     pos.y = Ypos;
-                     transform.position = pos;
-                     flagged = false;
+            {
+                cripple = false;
+                Vector2 pos = transform.position;
+                pos.x = Xpos;
+                pos.y = Ypos;
+                transform.position = pos;
+                flagged = false;
                 //ks.Activate = true;
                 Destroy(RecallEffect);
-                SR.color = current;
-                 }
-                 else
-                 {
-                 if (Floored)
-                     {
-                    current = SR.color;
-                         Xpos = transform.position.x;
-                         Ypos = transform.position.y + 0.1f;
-                         flagged = true;
-                         RecallEffect=Instantiate(prefab,transform.position,Quaternion.identity);
-                    SR.color = new Color(SR.color.r,SR.color.g,SR.color.b,0.5f);
-                     }
+                //SR.color = current;
+            }
+            else
+            {
+                if (Floored)
+                {
+                    //current = SR.color;
+                    Xpos = transform.position.x;
+                    Ypos = transform.position.y + 0.1f;
+                    flagged = true;
+                    RecallEffect = Instantiate(prefab, transform.position, Quaternion.identity);
+                    //SR.color = new Color(SR.color.r,SR.color.g,SR.color.b,0.5f);
+                }
 
-                 }
+            }
 
-         }
+        }
+
+        //semi invis mechanic
+
+        if (Input.GetKeyDown(KeyCode.E)) 
+        
+        {
+            Speed = 9;
+            JumpPower = 13;
+           
+            Isinvis = true;
+        
+        }
+        if (Isinvis) 
+        {
+            SR.color = new Color(0, 0, 0, .5f);
+            Iduration -= Time.deltaTime;
+        }
+        if(Iduration <= 0.01f) 
+        {
+            Speed = 5;
+            JumpPower = 10;
+            SR.color = new Color(0.52f, 0.86f,1.0f,1.0f);
+            Isinvis = false;
+            Iduration = 5;
+        }
         //new falling mechanic
         Ruby = RB.linearVelocityY;
         if (Ruby < 0)
-        { 
-            falling+= Time.deltaTime; 
-        
+        {
+            falling += Time.deltaTime;
+
         }
-        else 
+        else
         {
             falling = 0;
         }
-        if(falling > 1) 
+        if (falling > 2)
         {
-           // Debug.Log("We cooked");
+            // Debug.Log("We cooked");
             falling = 0;
             cripple = true;
         }
     }
 
-     private void OnCollisionEnter2D(Collision2D other)
-    {  
+    private void OnCollisionEnter2D(Collision2D other)
+    {
         //If I collide with something solid, mark me as being on the ground
-        if(other.gameObject.CompareTag("Floor"))
+        if (other.gameObject.CompareTag("Floor"))
         {
-           Floored = true;
-           falling = 0;
+            Floored = true;
+            falling = 0;
             if (cripple)
             {
-               // Debug.Log("You messed up");
+                // Debug.Log("You messed up");
 
                 cripple = false;
                 staggering = true;
-                
+
             }
         }
         else
@@ -206,5 +234,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Floored = false;
     }
+
 }
     
