@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer SR;
     public Rigidbody2D RB;
     public Collider2D Coll;
+    public Animator ani;
 
     public float Speed = 5;
     public float JumpPower = 10;
@@ -79,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
             vel.x = Speed;
             //If I hit right, mark that I'm not facing left
             FacingLeft = false;
+           
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -86,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
             vel.x = -Speed;
             //If I hit left, mark that I'm facing left
             FacingLeft = true;
+           
         }
         else
         {  //If I hit neither, come to a stop
