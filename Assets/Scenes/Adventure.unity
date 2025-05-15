@@ -2390,6 +2390,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 315e049f83cf2ff4e81e587a13e563bf, type: 3}
+    - target: {fileID: 7568489002718936316, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 7570989868952466269, guid: 391402b075820f4408a35995d31d4edc, type: 3}
     - target: {fileID: 8764829444977369635, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2861,6 +2865,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 315e049f83cf2ff4e81e587a13e563bf, type: 3}
+    - target: {fileID: 7568489002718936316, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 7570989868952466269, guid: 391402b075820f4408a35995d31d4edc, type: 3}
     - target: {fileID: 8764829444977369635, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -3024,6 +3032,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 315e049f83cf2ff4e81e587a13e563bf, type: 3}
+    - target: {fileID: 7568489002718936316, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 7570989868952466269, guid: 391402b075820f4408a35995d31d4edc, type: 3}
     - target: {fileID: 8764829444977369635, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -3187,6 +3199,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 315e049f83cf2ff4e81e587a13e563bf, type: 3}
+    - target: {fileID: 7568489002718936316, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 7570989868952466269, guid: 391402b075820f4408a35995d31d4edc, type: 3}
     - target: {fileID: 8764829444977369635, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -5049,11 +5065,28 @@ PrefabInstance:
       value: 'Greetings, Fellow Traveler. Press E to get a little bit of speed and
         jump.
 
-'
+        Press R to set a marker Down, press it again to "Recall" back
+        to the marker.'
       objectReference: {fileID: 0}
     - target: {fileID: 1627640615282558064, guid: 85d193f3b57f04b45866391650af6713, type: 3}
       propertyPath: m_Name
       value: NPC 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5512647210616846502, guid: 85d193f3b57f04b45866391650af6713, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2.7531
+      objectReference: {fileID: 0}
+    - target: {fileID: 5512647210616846502, guid: 85d193f3b57f04b45866391650af6713, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -4.7742
+      objectReference: {fileID: 0}
+    - target: {fileID: 5512647210616846502, guid: 85d193f3b57f04b45866391650af6713, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.8841
+      objectReference: {fileID: 0}
+    - target: {fileID: 5512647210616846502, guid: 85d193f3b57f04b45866391650af6713, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.3872
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5287,7 +5320,7 @@ PrefabInstance:
     - target: {fileID: 7568489002718936316, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
       propertyPath: audioSource
       value: 
-      objectReference: {fileID: 258584395}
+      objectReference: {fileID: 7570989868952466269, guid: 391402b075820f4408a35995d31d4edc, type: 3}
     - target: {fileID: 8764829444977369635, guid: dd781b0bd99b3664ba3d639a0d32e759, type: 3}
       propertyPath: m_Sprite
       value: 
