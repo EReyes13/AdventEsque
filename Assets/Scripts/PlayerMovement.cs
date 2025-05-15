@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -7,6 +9,17 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D RB;
     public Collider2D Coll;
     public Animator ani;
+
+    public AudioClip Recallsfx;
+
+    public AudioClip Tyronesfx;
+
+    public AudioClip invissfx;
+    public AudioSource audiosource;
+
+    public AudioSource audiotwo;
+
+    public AudioSource invissource;
 
     public float Speed = 5;
     public float JumpPower = 10;
@@ -44,35 +57,34 @@ public class PlayerMovement : MonoBehaviour
     //invis mech 
     public bool Isinvis;
     public float Iduration = 5;
-
-   
-
+    
+    //state machine time
+    public enum playerstate {Idle, Moving, Tyrone, Speedboi}
+   public playerstate PS;
+    public bool statecomplete;
     // Update is called once per frame
     void Start()
     {
         Xpos = transform.position.x;
         Ypos = transform.position.y;
+        audiosource = gameObject.GetComponent<AudioSource>();
+        audiotwo = gameObject.GetComponent<AudioSource>();
+        invissource = gameObject.GetComponent<AudioSource>();
     }
 
     
     void Update()
     {
+               if(statecomplete)
+        {
+           SelectState();
+        }
+       
+        UpdateState();
+
+
         Vector2 vel = RB.linearVelocity;
-        if (staggering)
-        {
-            Speed = 2;
-            JumpPower = 4;
-            Duration -= Time.deltaTime;
-        }
-
-        if (Duration <= 0.001)
-        {
-            Speed = 5;
-            JumpPower = 10;
-
-            staggering = false;
-            Duration = 10;
-        }
+       
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
@@ -80,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
             vel.x = Speed;
             //If I hit right, mark that I'm not facing left
             FacingLeft = false;
-           
+          
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -149,6 +161,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.position = pos;
                 flagged = false;
                 //ks.Activate = true;
+                audiosource.PlayOneShot(Recallsfx, 1);
                 Destroy(RecallEffect);
                 //SR.color = current;
             }
@@ -170,30 +183,16 @@ public class PlayerMovement : MonoBehaviour
 
         //semi invis mechanic
 
-        if (Input.GetKeyDown(KeyCode.E)) 
-        
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Speed = 9;
-            JumpPower = 13;
-           
             Isinvis = true;
+            invissource.PlayOneShot(invissfx, 1);
+
+         }
         
-        }
-        if (Isinvis) 
-        {
-            SR.color = new Color(0, 0, 0, .5f);
-            Iduration -= Time.deltaTime;
-        }
-        if(Iduration <= 0.01f) 
-        {
-            Speed = 5;
-            JumpPower = 10;
-            SR.color = new Color(0.52f, 0.86f,1.0f,1.0f);
-            Isinvis = false;
-            Iduration = 5;
-        }
+       
         //new falling mechanic
-        Ruby = RB.linearVelocityY;
+            Ruby = RB.linearVelocityY;
         if (Ruby < 0)
         {
             falling += Time.deltaTime;
@@ -203,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
         {
             falling = 0;
         }
-        if (falling > 2)
+        if (falling > 1.5f)
         {
             // Debug.Log("We cooked");
             falling = 0;
@@ -211,6 +210,97 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //state machine shenanigans
+    public void UpdateState()
+    {
+        statecomplete = false;
+        switch(PS)
+        {
+            case playerstate.Idle:
+            UpdateIdle();
+            break;
+            case playerstate.Tyrone:
+            UpdateTyrone();
+            break;
+            case playerstate.Speedboi:
+            UpdateSpeedboi();
+            break;
+        }
+    }
+
+    public void SelectState()
+    {
+        if (staggering)
+        {
+            PS = playerstate.Tyrone;
+        }
+        else if (Isinvis)
+        {
+            PS = playerstate.Speedboi;
+        }
+        else
+        {
+            PS = playerstate.Idle;
+         }
+    }
+    public void UpdateIdle() 
+    {
+
+
+        if(staggering)
+        {
+            statecomplete = true;
+        }
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            statecomplete = true;
+        }
+
+       
+    }
+
+     public void UpdateTyrone()
+        {
+             if (staggering)
+        {
+           
+            Speed = 2;
+            JumpPower = 4;
+            Duration -= Time.deltaTime;
+        }
+
+        if (Duration <= 0.001)
+        {
+            Speed = 5;
+            JumpPower = 10;
+
+            staggering = false;
+            Duration = 10;
+            statecomplete = true;
+        }
+        }
+    public void UpdateSpeedboi()
+    {
+         {
+            Speed = 9;
+            JumpPower = 13;
+        
+        }
+        if (Isinvis) 
+        {
+            SR.color = new Color(0, 0, 0, .5f);
+            Iduration -= Time.deltaTime;
+        }
+        if (Iduration <= 0.01f)
+        {
+            Speed = 5;
+            JumpPower = 10;
+            SR.color = new Color(1f, 1f, 1.0f, 1.0f);
+            Isinvis = false;
+            Iduration = 5;
+            statecomplete = true; 
+        }
+    }
     private void OnCollisionEnter2D(Collision2D other)
     {
         //If I collide with something solid, mark me as being on the ground
@@ -221,7 +311,7 @@ public class PlayerMovement : MonoBehaviour
             if (cripple)
             {
                 // Debug.Log("You messed up");
-
+                 audiotwo.PlayOneShot(Tyronesfx, 1);
                 cripple = false;
                 staggering = true;
 
